@@ -1,0 +1,13 @@
+const express=require("express")
+const { protect } = require("../contollers/loginController")
+const router=express.Router()
+const{getSponsers,addSponsor,addPic,getOne,editSponsor,deleteSponsor,isActive,getAll}=require("../contollers/sponsorController")
+router.get("/",getSponsers)
+router.get("/getAll",getAll)
+router.post("/add",protect,addSponsor)
+router.post("/addPic",protect,addPic)
+router.get("/getOne",getOne)
+router.post("/edit",protect, editSponsor)
+router.delete("/",protect,deleteSponsor)
+router.post("/isActive",protect, isActive)
+module.exports=router

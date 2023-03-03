@@ -11,6 +11,6 @@ router.get("/getOne",getOneNewspaper)
 router.post("/edit",protect,editNewspaper)
 router.delete("/",protect,deleteNewspaper)
 router.post("/isActiveNewspaper",protect,isActiveNewspaper)
-router.get("/download",protect,downloadFile)
+router.get("/download",downloadFile)
 router.get("/searchAdmin",protect,search)
 module.exports=router

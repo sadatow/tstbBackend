@@ -1,17 +1,36 @@
 const {sequelize}=require("./models")
 const express=require("express")
 const fileupload=require("express-fileupload")
+const rateLimit = require('express-rate-limit')
 const{Menu}=require("./models")
+const helmet=require("helmet")
 const schedule = require('node-schedule');
+const frameguard=require("frameguard")
 const app=express()
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({limit: '50mb',extended: true}));
 app.use(fileupload())
+app.use(
+    helmet({
+      crossOriginEmbedderPolicy: false,
+      // ...
+    })
+  );
+app.use(frameguard({action:"SAMEORIGIN"}))
 const cors=require("cors")
 app.use(cors({
     origin:"*",
     credentials:true,
 }))
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 100,
+	standardHeaders: true,
+	legacyHeaders: false, 
+})
+
+app.use(limiter)
+app.disable("x-powered-by")
     const day = schedule.scheduleJob('0 0 0 * * *',async ()=>{
         let statistika=await Menu.findOne({where: {id:4}})
         console.log(statistika.body)

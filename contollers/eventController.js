@@ -19,9 +19,9 @@ exports.addEvent=async (req,res,next)=>{
   let path="events/"
   let name=req.body.name
   let body={
-    TM:await decodeBase64(req.body.text,path),
-    RU:await decodeBase64(req.body.text2,path), 
-    EN:await decodeBase64(req.body.text3,path)
+    TM:req.body.text,
+    RU:req.body.text2, 
+    EN:req.body.text3,
   }
   let tags=req.body.tag
 let header={

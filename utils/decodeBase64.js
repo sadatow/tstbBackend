@@ -11,6 +11,7 @@ exports.decodeBase64=async(text,path)=>{
     while(status){
       status=false
       if(text.includes("<img src=\"data:image")){
+        console.log(14)
         startIndex=text.indexOf("\"data:image")
         replaceStart=startIndex
         for(let i=startIndex; i<text.length; i++){
@@ -19,7 +20,6 @@ exports.decodeBase64=async(text,path)=>{
             break
           }
         }
-        console.log(17,startIndex)
         for (let i=startIndex; i<text.length; i++){
           if(text[i]==">"){
             endIndex=i
@@ -32,14 +32,13 @@ exports.decodeBase64=async(text,path)=>{
         let replace=text.substring(replaceStart,endIndex)
         let filename=randomstring.generate(7)+".jpg"
         let newVar="https://tstb.gov.tm:5003/"+path+filename
-        console.log(newVar)
         brandNew=text.replace(replace,newVar)
         let buffer=Buffer.from(b64string,"base64")
+        console.log(filename,brandNew)
         fs.writeFile("./public/"+path+filename,buffer,(err)=>{if(err){console.log(err)}})
         console.log(brandNew)
       }
     }
-
       return brandNew
 }  
  exports.decodeBase64Array=async(text,path,res)=>{

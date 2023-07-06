@@ -10,13 +10,13 @@ const app=express()
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({limit: '50mb',extended: true}));
 app.use(fileupload())
-app.use(
-    helmet({
-      crossOriginEmbedderPolicy: false,
-      // ...
-    })
-  );
-app.use(frameguard({action:"SAMEORIGIN"}))
+// app.use(
+//     helmet({
+//       crossOriginEmbedderPolicy: false,
+//       // ...
+//     })
+//   );
+// app.use(frameguard({action:"SAMEORIGIN"}))
 const cors=require("cors")
 app.use(cors({
     origin:"*",
@@ -24,13 +24,21 @@ app.use(cors({
 }))
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
-	max: 100,
+	max: 1000,
 	standardHeaders: true,
 	legacyHeaders: false, 
 })
 
 app.use(limiter)
 app.disable("x-powered-by")
+    const week = schedule.scheduleJob('0 1 0 * * 1',async function(){
+      let statistika=await Menu.findOne({where: {id:4}})
+      console.log(statistika.body)
+      statistika.body.week=0
+      statistika.body.day=0
+      await Menu.update({body:statistika.body},{where: {id:4}})
+      console.log('hepdani pozya');
+    });
     const day = schedule.scheduleJob('0 0 0 * * *',async ()=>{
         let statistika=await Menu.findOne({where: {id:4}})
         console.log(statistika.body)
@@ -43,16 +51,11 @@ app.disable("x-powered-by")
         let statistika=await Menu.findOne({where: {id:4}})
         console.log(statistika.body)
         statistika.body.month=0
+        statistika.body.day=0
         await Menu.update({body:statistika.body},{where: {id:4}})
       console.log('ayy pozya');
     });
-    const week = schedule.scheduleJob('0 0 0 * * 1',async function(){
-        let statistika=await Menu.findOne({where: {id:4}})
-        console.log(statistika.body)
-        statistika.body.week=0
-        await Menu.update({body:statistika.body},{where: {id:4}})
-        console.log('hepdani pozya');
-      });
+    
 app.use(express.static("./public"))
 app.use(require("morgan")("dev"))
 app.use("/",require("./routes/main"))

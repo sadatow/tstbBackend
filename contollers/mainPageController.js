@@ -9,6 +9,7 @@ exports.getAll=async(req,res,next)=>{
           ],
           attributes:["name","pic","date","id","header","body"],
           limit:4,
+          where:{active:"true"}
         })
         obj.list=news
       }catch(err){
@@ -22,6 +23,7 @@ exports.getAll=async(req,res,next)=>{
           ],
           attributes:["name","body","pic","date","id","header"],
           limit:4,
+          where:{active:"true"}
         })
         obj.list2=news
       }catch(err){

@@ -207,6 +207,7 @@ exports.getTags=async(req,res,next) => {
 exports.isActiveEvent=async(req,res,next)=>{
   let active=req.body.data
   let id=req.body.id
+  console.log(req.body)
   try {
     await Events.update({active:active},{where:{"id":id}})
     return res.status(200).send("sucesss")

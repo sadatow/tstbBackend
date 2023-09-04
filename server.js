@@ -56,27 +56,30 @@ app.disable("x-powered-by")
       console.log('ayy pozya');
     });
     
-app.use(express.static("./public"))
-app.use(require("morgan")("dev"))
-app.use("/",require("./routes/main"))
-app.use("/news",require("./routes/news"))//dyndyk
-app.use("/newspapers",require("./routes/newspaper"))//dyndyk
-app.use("/banners",require("./routes/banner"))//dyndyk
-app.use("/members",require("./routes/members"))//dyndyk
-app.use("/province",require("./routes/province"))//dyndyk
-app.use("/sponsor",require("./routes/sponsor"))
-app.use("/events",require("./routes/events"))//dyndyk
-app.use("/industry",require("./routes/industry"))
-app.use("/commerce",require("./routes/commerce"))//dyndyk
-app.use("/constructor",require("./routes/constructor"))
-app.use("/mail",require("./routes/mail"))//dyndyk
-app.use("/chat",require("./routes/chat"))
-app.use("/menu",require("./routes/menu"))//dyndyk
-app.use("/login",require("./routes/login"))
-app.listen("5000",async function(){
-    await sequelize.authenticate()
-    console.log("app is listening on 5000")
-
+    app.use(express.static("./public"))
+    app.use(require("morgan")("dev"))
+    app.use("/api",require("./routes/main"))
+    app.use("/api/news",require("./routes/news"))//dyndyk
+    app.use("/api/newspapers",require("./routes/newspaper"))//dyndyk
+    app.use("/api/banners",require("./routes/banner"))//dyndyk
+    app.use("/api/members",require("./routes/members"))//dyndyk
+    app.use("/api/province",require("./routes/province"))//dyndyk
+    app.use("/api/sponsor",require("./routes/sponsor"))
+    app.use("/api/events",require("./routes/events"))//dyndyk
+    app.use("/api/industry",require("./routes/industry"))
+    app.use("/api/commerce",require("./routes/commerce"))//dyndyk
+    app.use("/api/constructor",require("./routes/constructor"))
+    app.use("/api/mail",require("./routes/mail"))//dyndyk
+    app.use("/api/chat",require("./routes/chat"))
+    app.use("/api/menu",require("./routes/menu"))//dyndyk
+    app.use("/api/login",require("./routes/login"))
+    app.get("/api/images/:path/:image",(req,res)=>{
+      console.log("men barder")
+      res.sendFile(req.params.image,{root:"./public/"+req.params.path})
+    })
+    app.listen(5000,async()=>{
+  await sequelize.authenticate()
+  console.log("Connected to DB and listening on port 5000")
 })
 
 

@@ -19,6 +19,7 @@ exports.allBanners=async(req,res,next)=>{
 }
 exports.uploadPic=async(req,res,next)=>{
     let file
+    console.log(req.files)
     if(req.files.pic0==null){
         return res.json({"status":"ici bosh"})
     }else{

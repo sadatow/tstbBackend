@@ -1,7 +1,11 @@
 const express=require("express")
 const router=express.Router()
-const {setting,login,update,protect}=require("../contollers/loginController")
+const {setting,login,update,protect,editMail, refresh, otp,getMe}=require("../contollers/loginController")
 router.get("/setting",setting)
 router.post("/",login)
+router.post("/otp",otp)
+router.post("/refresh",refresh)
 router.post("/edit",protect,update)
+router.post("/mail",protect,editMail)
+router.get("/get-me",protect,getMe)
 module.exports=router

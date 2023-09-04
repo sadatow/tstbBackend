@@ -6,11 +6,12 @@ addPic,editMembership,editAboutUs,editConsultation,
 getAllBussiness,getAllLicense,getOneBussiness,getOneLicense,
 addBussiness,editBussiness,addBussinessFile,deleteBussinessFile,deleteBussiness,addMembershipFile,
 deleteMembershipFile,addLicense,editLicense,deleteLicense,addLicenseFile,deleteLicenseFile,getLicenseHeader,
-addStatistika,getStatistika,editStatistika,addOne,searchBussiness,searchLicense,download,downloadBussiness,downloadLicense
+addStatistika,getStatistika,editStatistika,addOne,searchBussiness,searchLicense,download,downloadBussiness,downloadLicense, getExport, editExport
 }=require("../contollers/menuController")
 router.get("/addSettings", addSettings)
 router.get("/getMembership",getMembership)
 router.get("/getConsultation",getConsultation)
+router.get("/getExport",getExport)
 router.get("/addStatistika",addStatistika)
 router.get("/getStatistika",getStatistika)
 router.post("/statistikaAdmin",protect, editStatistika)
@@ -19,6 +20,7 @@ router.get("/getAboutUs",getAboutUs)
 router.post("/addPic",protect,addPic)
 router.post("/editConsultation",protect,editConsultation)
 router.post("/editMembership",protect,editMembership)
+router.post("/editExport",protect,editExport)
 router.post("/addFile",protect,addMembershipFile)
 router.delete("/deleteFile",protect,deleteMembershipFile)
 router.post("/editAboutUs",protect,editAboutUs)

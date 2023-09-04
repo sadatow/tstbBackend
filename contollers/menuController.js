@@ -8,8 +8,8 @@ const sharp=require("sharp")
 exports.addSettings=async(req,res,next)=>{
     try {
         await Menu.create({body:{en:[""],ru:[""],tm:[""],},header:{en:[""],ru:[""],tm:[""]}})//consultation
-        await Menu.create({body:{en:[""],ru:[""],tm:[""],},header:{en:[""],ru:[""],tm:[""]}})//membership
-        await Menu.create({body:{en:[""],ru:[""],tm:[""],},header:{en:[""],ru:[""],tm:[""]}})//about us
+        // await Menu.create({body:{en:[""],ru:[""],tm:[""],},header:{en:[""],ru:[""],tm:[""]}})//membership
+        // await Menu.create({body:{en:[""],ru:[""],tm:[""],},header:{en:[""],ru:[""],tm:[""]}})//about us
 
         return res.send("sucess")
     } catch (err) {
@@ -157,6 +157,24 @@ exports.getConsultation=async(req,res,next) => {
     return res.status(400).send("something went wrong")
   }
 }
+exports.getExport=async(req,res,next) => {
+  let boshmy=false
+  try {
+    let about=await Menu.findOne({where:{id:6}})
+    if(about.pic!=null){
+      about.pic.forEach((e,i)=>{
+        if(e==" "){about.pic.splice(i,1);boshmy=true}
+      })
+      if(boshmy){await Menu.update({pic:about.pic},{where:{id:6}})
+    }
+    about=await Menu.findOne({where:{id:6}})
+  }
+    return res.status(200).send(about)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send("something went wrong")
+  }
+}
 exports.editConsultation=async(req,res,next)=>{
   let files 
   let allfiles=[]
@@ -188,6 +206,43 @@ exports.editConsultation=async(req,res,next)=>{
     try {
         await Menu.update({header:header,body:body},{where:{"id":1}})
         return res.send({id:1})
+    } catch (err) {
+        console.log(err)
+        return res.status(400).send({message: err.message})   
+    }
+}
+exports.editExport=async(req,res,next)=>{
+  let files 
+  let allfiles=[]
+  console.log(req.body)
+  try {
+    files=await Menu.findOne({where:{id:6}})
+    allfiles=files.pic
+  } catch (err) {
+    console.log(err)
+    return res.status(400).send({message:"something went wrong"})
+  }
+    let header={
+        tm:req.body.tmheader,
+        ru:req.body.ruheader,
+        en:req.body.enheader
+    }
+    let body={
+        tm:req.body.text,
+        ru:req.body.text2,
+        en:req.body.text3
+    }
+    let bosh=req.body.bosh
+  if(bosh[0]!=undefined){
+  console.log("shu ishledi bosh")
+  for(let i=0;i<bosh.length;i++){
+    fs.unlink("./public/menu/"+files.pic[(bosh[i]-i)],(err)=>{if(err){console.log(err)}})
+    allfiles.splice((bosh[i]-i),1," ")
+  }
+}
+    try {
+        await Menu.update({header:header,body:body},{where:{id:6}})
+        return res.send({id:6})
     } catch (err) {
         console.log(err)
         return res.status(400).send({message: err.message})   
@@ -269,7 +324,7 @@ exports.addPic=async(req,res,next)=>{
     console.log(err)
     return res.status(400).json({err:"something went wrong"})
   }
-
+  console.log(filename)
   let sana=0
     let pic=Object.values(req.files)
     let pic1=req.files
@@ -298,7 +353,6 @@ exports.addPic=async(req,res,next)=>{
         for (let k=j;k>0;k--){if(allfiles[k]!=" "){allfiles.splice(k,1,newfiles[sana]);sana+=1;break}}
       }
 }
-
     try {
         await Menu.update({pic:allfiles},{where:{id:id}})
         return res.status(200).json({status:"success"})

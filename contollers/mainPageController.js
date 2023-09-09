@@ -13,7 +13,7 @@ exports.getAll=async(req,res,next)=>{
         })
         obj.list=news
       }catch(err){
-        console.log(err)
+        console.log("news",err)
         return res.status(500).send({err:"err"})
       }
       try{
@@ -27,7 +27,7 @@ exports.getAll=async(req,res,next)=>{
         })
         obj.list2=news
       }catch(err){
-        console.log(err)
+        console.log("event",err)
         return res.status(500).send({err:"err"})
       }
       try{
@@ -39,7 +39,7 @@ exports.getAll=async(req,res,next)=>{
           })
           obj.banner=banners
       }catch(err){
-          console.log(err)
+          console.log("banners",err)
           return res.status(500).json({"err":"something went wrong"})
       }
       try {
@@ -53,7 +53,8 @@ exports.getAll=async(req,res,next)=>{
       obj.karhanalar=banners
         
       } catch (err) {
-        
+        console.log("karhana",err)
+        return res.status(500).json({"err":"something went wrong"})
       }
       try{
         let members=await Member.findAll({
@@ -64,7 +65,7 @@ exports.getAll=async(req,res,next)=>{
           })
           obj.brands=members;
     }catch(err){
-      console.log(err)
+      console.log("members",err)
       return res.json({"err":"something went wrong"})
   }
   try{
@@ -73,14 +74,14 @@ exports.getAll=async(req,res,next)=>{
       })
       obj.sponserler=sponsor
 }catch(err){
-    console.log(err)
+    console.log("sponsor",err)
     return res.status(500).send("something went wrong")
 }
 try {
   let category=await Constructorcategory.findAll({order:[["id","DESC"]]})
   obj.category=category
 } catch (err) {
-  console.log(err)
+  console.log("constructor",err)
   return res.status(400).send("something went wrong")
 }
 try{
@@ -89,7 +90,7 @@ try{
   )
   obj.location=province
 }catch(err){
-  console.log(err)
+  console.log("loction",err)
   return res.status(500).send("something went wrong")
 }
 try {
@@ -104,7 +105,7 @@ try {
   array.push(statistika.body.month)
   obj.statictika=array
 } catch (err) {
-  console.log(err)  
+  console.log("stats",err)  
 }
   return res.send(obj)
 }

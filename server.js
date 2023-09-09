@@ -57,7 +57,7 @@ app.disable("x-powered-by")
     });
     
     app.use(express.static("./public"))
-    app.use(require("morgan")("dev"))
+    //app.use(require("morgan")("dev"))
     app.use("/api",require("./routes/main"))
     app.use("/api/news",require("./routes/news"))//dyndyk
     app.use("/api/newspapers",require("./routes/newspaper"))//dyndyk
